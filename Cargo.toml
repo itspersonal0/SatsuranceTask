@@ -2,4 +2,3 @@
 members = [
     "src/staking_pool_backend"
 ]
-resolver = "2"

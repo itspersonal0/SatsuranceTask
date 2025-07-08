@@ -4,16 +4,6 @@
       "candid": "src/staking_pool_backend/staking_pool_backend.did",
       "package": "staking_pool_backend",
       "type": "rust"
-    },
-    "staking_pool_frontend": {
-      "dependencies": [
-        "staking_pool_backend"
-      ],
-      "source": [
-        "src/staking_pool_frontend/dist"
-      ],
-      "type": "assets",
-      "workspace": "staking_pool_frontend"
     }
   },
   "defaults": {

@@ -1,3 +1,54 @@
+type LockPeriod = variant {
+  Days90;
+  Days180;
+  Days360;
+};
+
+type Deposit = record {
+  amount: nat64;
+  lock_period: LockPeriod;
+  deposit_time: nat64;
+  unlock_time: nat64;
+  is_withdrawn: bool;
+};
+
+type UserStake = record {
+  deposits: vec Deposit;
+  total_staked: nat64;
+};
+
+type DepositArgs = record {
+  amount: nat64;
+  lock_period: LockPeriod;
+  from_subaccount: opt blob;
+};
+
+type WithdrawArgs = record {
+  deposit_index: nat;
+  to_subaccount: opt blob;
+};
+
+type StakingError = variant {
+  InsufficientFunds;
+  TransferFailed: text;
+  DepositNotFound;
+  StillLocked;
+  AlreadyWithdrawn;
+  InvalidAmount;
+  Unauthorized;
+};
+
+type Result = variant {
+  Ok: text;
+  Err: StakingError;
+};
+
 service : {
-    "greet": (text) -> (text) query;
+  deposit: (DepositArgs) -> (Result);
+  withdraw: (WithdrawArgs) -> (Result);
+  reward_pool: (nat64) -> (Result);
+  slash_pool: (nat64, principal) -> (Result);
+  get_user_stakes: (principal) -> (opt UserStake) query;
+  get_total_pool_amount: () -> (nat64) query;
+  get_canister_account_id: () -> (text) query;
 }
